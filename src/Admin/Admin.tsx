@@ -1,56 +1,73 @@
-import React,  { MouseEvent } from "react";
+import React,  { MouseEvent, useCallback, useState, useRef, lazy } from "react";
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import debounce from 'debounce';
 
 import { IPost } from '../Posts/Post';
 
+const Posts = lazy(() => import('../Posts/Posts'));
+
 const Admin: React.FC = () => {
     // Function using fetch to POST to our API endpoint
-    const onCreatePostClick = (e: MouseEvent) => {
+    const [message, setMessage] = useState("");
+    const [issubmitDisabled, setIsSubmitDisabled] = useState(false);
+    const delayedQuery = useRef(debounce(q => setMessage(q), 300)).current;
+    const inputEl = useRef<HTMLTextAreaElement>(null);
+
+    const handleChange = useCallback((event) => {
+        delayedQuery(event.currentTarget.value);
+    }, [delayedQuery]);
+
+    const onCreatePostClick = useCallback((e: MouseEvent) => {
         e.preventDefault();
-        function createPost(data) { 
-            return fetch('/.netlify/functions/post', {
-                body: JSON.stringify(data),
-                method: 'POST'
-            }).then(response => {
-                return response.json();
-            })
+        const createPost = async (data) => {
+            try {
+                const postsResponse = await fetch('/.netlify/functions/post', {
+                    body: JSON.stringify(data),
+                    method: 'POST'
+                });
+                await postsResponse.json();
+                
+                if (inputEl?.current) {
+                    inputEl.current.value = "";
+                }
+            } catch (err) {
+                console.log(err);
+            }
+            setIsSubmitDisabled(false);
         }
-        
+
         // Post data
         const myPost: IPost = {
+            message,
             user: "Brandon In",
-            message: "The Revolution Will Not Be Televised.",
             time: 1591158839000,
         }
         
         // create it!
-        createPost(myPost).then((response) => {
-            console.log('API response', response)
-            // set app state
-        }).catch((error) => {
-            console.log('API error', error)
-        })
-    }
+        setIsSubmitDisabled(true);
+        createPost(myPost);
+    }, [message, setIsSubmitDisabled]);
 
     return (
-        <div>
-            <Card bg="dark" text="white" style={{ marginTop: "5%" }}>
+        <>
+            <Card bg="dark" text="white" style={{ margin: "5% 0" }}>
                 <Card.Body>
                     <Card.Title>
                         <Form>
                             <Form.Group controlId="post">
-                                <Form.Control as="textarea" size="lg" rows={5} placeholder="What's happening?" />
+                                <Form.Control as="textarea" ref={inputEl} size="lg" onChange={handleChange} rows={5} placeholder="What's happening?" />
                             </Form.Group>
-                            <Button variant="light" size="lg" onClick={onCreatePostClick} block>
+                            <Button variant="light" size="lg" onClick={onCreatePostClick} disabled={issubmitDisabled} block>
                                 Submit
                             </Button>
                         </Form>
                     </Card.Title>
                 </Card.Body>
             </Card>
-        </div>
+            <Posts />
+        </>
     )
 };
 
