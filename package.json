@@ -13,6 +13,7 @@
     "@types/react-router-dom": "^5.1.5",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
+    "debounce": "^1.2.0",
     "faunadb": "^2.14.2",
     "qrcode.react": "^1.0.0",
     "react": "^16.13.1",
