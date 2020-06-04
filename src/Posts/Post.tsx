@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Card from 'react-bootstrap/Card';
 
 export interface IPost {
     user: string
     message: string
+}
+
+export interface ITime {
     time: number
 }
 
-const Post: React.FC<IPost> = ({ user, message, time }): any => {
-    const timeObject = new Date(time);
+const Post: React.FC<IPost & ITime> = ({ user, message, time }): any => {
+    const timeObject = useMemo(() => new Date(time), [time]);
     return (
         <Card bg="dark" text="white">
             <Card.Body>

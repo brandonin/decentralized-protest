@@ -42,7 +42,6 @@ const Admin: React.FC = () => {
         const myPost: IPost = {
             message,
             user: "Brandon In",
-            time: 1591158839000,
         }
         
         // create it!
