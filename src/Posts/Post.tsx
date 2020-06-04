@@ -11,7 +11,7 @@ export interface ITime {
 }
 
 const Post: React.FC<IPost & ITime> = ({ user, message, time }): any => {
-    const timeObject = useMemo(() => new Date(time), [time]);
+    const timeObject = useMemo(() => new Date(time/1000), [time]);
     return (
         <Card bg="dark" text="white">
             <Card.Body>
