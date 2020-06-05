@@ -1,4 +1,4 @@
-# Development on this project has ceased for the fact that iOS does not allow push notifications via web applications. This was the most fundamental piece of the application and I will be looking at ways to automating a way to disseminate information through Facebook Messenger.
+# Development on this project has ceased for the fact that iOS does not allow push notifications via web applications. This was the most fundamental piece of the application and I will be looking at disseminate information through Facebook Messenger that will also allow a template to provide resources to protestors.
 
 # Decentralized Protest
 
