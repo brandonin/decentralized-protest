@@ -1,3 +1,5 @@
+# Development on this project has ceased for the fact that iOS does not allow push notifications via web applications. This was the most fundamental piece of the application and I will be looking at ways to automating a way to disseminate information through Facebook Messenger.
+
 # Decentralized Protest
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/3c2c5540-33ff-4697-9f5a-ad71a2f95cb6/deploy-status)](https://app.netlify.com/sites/decentralized-protest/deploys)
